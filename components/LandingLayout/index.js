@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { device } from 'styles/devices'
 
-export default function NavBar () {
+export default function LandingLayout () {
   const { pathname } = useRouter()
   const [open, setOpen] = useState(false)
   const currentPage = (path) => {

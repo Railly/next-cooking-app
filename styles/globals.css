@@ -1,5 +1,6 @@
 html,
 body {
+  font-weight: 600;
   padding: 0;
   margin: 0;
   font-family: "Montserrat", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
@@ -30,5 +31,5 @@ button {
   --white: #fffcf9;
   --black: #32373b;
   --lightBlue: #f7f8fd;
-  --gray: #000000aa;
+  --gray: #00000077;
 }

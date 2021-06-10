@@ -8,7 +8,7 @@ export default function Home () {
       <main>
         <section>
           <h1>
-            Foddy es donde tus comidas
+            Foody es donde tus comidas
             <br /> se organizan 🍓
           </h1>
           <p>
@@ -18,8 +18,10 @@ export default function Home () {
             <br /> Crea tu cuenta y empieza tu nuevo estilo de vida!
           </p>
           <div>
-            <Button primary>PRU&Eacute;BALO GRATIS</Button>
-            <Button>INICIAR SESI&Oacute;N</Button>
+            <Button primary toPath="/register">
+              PRU&Eacute;BALO GRATIS
+            </Button>
+            <Button toPath="/login">INICIAR SESI&Oacute;N</Button>
           </div>
         </section>
         <Illustration />

@@ -1,9 +1,14 @@
+import Link from 'next/link'
 import { device } from 'styles/devices'
 
-export default function Button ({ children, primary }) {
+export default function Button ({ children, primary, toPath }) {
   return (
     <>
-      <button>{children}</button>
+      <Link href={toPath}>
+        <button>
+          <a>{children}</a>
+        </button>
+      </Link>
       <style jsx>{`
         button {
           border: 1px solid ${primary ? 'transparent' : 'var(--orange)'};
