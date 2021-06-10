@@ -4,10 +4,10 @@ export default function Button ({ children, primary }) {
       <button>{children}</button>
       <style jsx>{`
         button {
-          border: 1px solid ${primary ? 'transparent' : '#FF6961'};
+          border: 1px solid ${primary ? 'transparent' : 'var(--orange)'};
           width: 20em;
-          background-color: ${primary ? '#FF6961' : '#FFF'};
-          color: ${primary ? '#FFF' : '#FF6961'};
+          background-color: ${primary ? 'var(--orange)' : 'var(--white)'};
+          color: ${primary ? 'var(--white)' : 'var(--orange)'};
           border-radius: 6px;
           padding: 0.8em 0;
           margin-top: 4em;

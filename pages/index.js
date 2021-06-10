@@ -37,6 +37,11 @@ export default function Home () {
           margin: 0;
         }
 
+        li {
+          display: flex;
+          align-items: center;
+        }
+
         p {
           padding-top: 2em;
           font-size: 1em;

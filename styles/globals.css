@@ -4,11 +4,13 @@ body {
   margin: 0;
   font-family: "Montserrat", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
     Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background-color: var(--white);
 }
 
 a {
   color: inherit;
   text-decoration: none;
+  font-weight: 600;
 }
 
 * {
@@ -18,4 +20,14 @@ a {
 button {
   font-family: "Montserrat";
   font-weight: 600;
+}
+
+:root {
+  --orange: #ff6961;
+  --blue: #26547d;
+  --yellow: #ffd166;
+  --green: #06d6a0;
+  --white: #fffcf9;
+  --black: #32373b;
+  --lightBlue: #f7f8fd;
 }

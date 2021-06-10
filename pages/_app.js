@@ -54,6 +54,8 @@ function MyApp ({ Component, pageProps }) {
       <style jsx>{`
         li {
           list-style: none;
+          display: flex;
+          align-items: center;
         }
 
         ul {
