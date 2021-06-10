@@ -1,3 +1,5 @@
+import { device } from 'styles/devices'
+
 export default function Button ({ children, primary }) {
   return (
     <>
@@ -22,6 +24,13 @@ export default function Button ({ children, primary }) {
         }
         button:active {
           transform: scale(0.99);
+        }
+
+        @media ${device.mobileL} {
+          button {
+            width: 15em;
+            margin-top: 2em;
+          }
         }
       `}</style>
     </>

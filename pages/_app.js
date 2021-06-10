@@ -1,6 +1,5 @@
-import Logo from 'components/Logo'
+import NavBar from 'components/NavBar'
 import Head from 'next/head'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import '../styles/globals.css'
 
@@ -11,9 +10,6 @@ function MyApp ({ Component, pageProps }) {
     '/': 'Home',
     '/services': 'Servicios',
     '/pricing': 'Precios'
-  }
-  const currentPage = (path) => {
-    return pathname === path ? 'current_page' : ''
   }
 
   return (
@@ -26,56 +22,8 @@ function MyApp ({ Component, pageProps }) {
         />
         <link rel="icon" href="/favicon-foody.ico" />
       </Head>
-      <nav>
-        <ul>
-          <li>
-            <Logo />
-          </li>
-          <div>
-            <li>
-              <Link href="/">
-                <a className={currentPage('/')}>Home</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/services">
-                <a className={currentPage('/services')}>Servicios</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/pricing">
-                <a className={currentPage('/pricing')}>Precios</a>
-              </Link>
-            </li>
-          </div>
-        </ul>
-      </nav>
+      <NavBar />
       <Component {...pageProps} />
-      <style jsx>{`
-        li {
-          list-style: none;
-          display: flex;
-          align-items: center;
-        }
-
-        ul {
-          display: flex;
-        }
-
-        div {
-          display: flex;
-          justify-content: space-evenly;
-          width: 50%;
-        }
-
-        nav {
-          margin: 3em;
-        }
-
-        .current_page {
-          color: #ff6961;
-        }
-      `}</style>
     </>
   )
 }
