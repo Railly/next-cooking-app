@@ -51,6 +51,10 @@ function MyApp ({ Component, pageProps }) {
           width: 50%;
         }
 
+        nav {
+          margin: 3em;
+        }
+
         .current_page {
           color: #ff6961;
         }
