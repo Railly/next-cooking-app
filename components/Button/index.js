@@ -14,7 +14,8 @@ export default function Button ({ children, primary }) {
         }
         button:hover,
         button:focus {
-          background: #0053ba;
+          transform: scale(1.03);
+          transition: 0.3s;
         }
         button:focus {
           outline: 1px solid #fff;

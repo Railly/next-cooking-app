@@ -1,12 +1,31 @@
 import Logo from 'components/Logo'
+import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import '../styles/globals.css'
 
 function MyApp ({ Component, pageProps }) {
   const { pathname } = useRouter()
+
+  const pagesName = {
+    '/': 'Home',
+    '/services': 'Servicios',
+    '/pricing': 'Precios'
+  }
+  const currentPage = (path) => {
+    return pathname === path ? 'current_page' : ''
+  }
+
   return (
     <>
+      <Head>
+        <title>Foody - {pagesName[pathname]}</title>
+        <meta
+          name="description"
+          content="Tu app de recetas digitales favorita"
+        />
+        <link rel="icon" href="/favicon-foody.ico" />
+      </Head>
       <nav>
         <ul>
           <li>
@@ -15,21 +34,17 @@ function MyApp ({ Component, pageProps }) {
           <div>
             <li>
               <Link href="/">
-                <a className={pathname === '/' ? 'current_page' : ''}>Home</a>
+                <a className={currentPage('/')}>Home</a>
               </Link>
             </li>
             <li>
               <Link href="/services">
-                <a className={pathname === '/services' ? 'current_page' : ''}>
-                  Servicios
-                </a>
+                <a className={currentPage('/services')}>Servicios</a>
               </Link>
             </li>
             <li>
               <Link href="/pricing">
-                <a className={pathname === '/pricing' ? 'current_page' : ''}>
-                  Precios
-                </a>
+                <a className={currentPage('/pricing')}>Precios</a>
               </Link>
             </li>
           </div>

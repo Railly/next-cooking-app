@@ -1,18 +1,9 @@
 import Illustration from 'components/Illustration'
 import Button from 'components/Button'
-import Head from 'next/head'
 
 export default function Home () {
   return (
     <>
-      <Head>
-        <title>Foody - Home</title>
-        <meta
-          name="description"
-          content="Tu app de recetas digitales favorita"
-        />
-        <link rel="icon" href="/favicon-foody.ico" />
-      </Head>
       <main>
         <section>
           <h1>
@@ -26,8 +17,8 @@ export default function Home () {
             <br /> Crea tu cuenta y empieza tu nuevo estilo de vida!
           </p>
           <div>
-            <Button primary>PRUEBALO GRATIS</Button>
-            <Button>INICIAR SESION</Button>
+            <Button primary>PRU&Eacute;BALO GRATIS</Button>
+            <Button>INICIAR SESI&Oacute;N</Button>
           </div>
         </section>
         <Illustration />
