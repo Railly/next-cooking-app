@@ -1,41 +1,34 @@
 import AuthButton from 'components/AuthButton'
 import Logo from 'components/Logo'
 import { signUpWithEmailPassword } from 'firebase/client'
+import useCustomToast from 'hooks/useCustomToast'
+import useForm from 'hooks/useForm'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import validateEmail from 'utils/validateEmail'
+import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer } from 'react-toastify'
 
 export default function Register () {
   const router = useRouter()
-  const [email, setEmail] = useState(null)
-  const [password, setPassword] = useState(null)
+  const [disabled, setDisabled] = useState(false)
+  const { form, onChange } = useForm()
+  const { toastEmailError, toastAuthError } = useCustomToast(setDisabled)
 
-  const validateEmail = (email) => {
-    const re = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
-    return re.test(email)
-  }
-
-  const handleClick = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
-    if (validateEmail(email)) {
-      signUpWithEmailPassword(email, password)
+    setDisabled(true)
+
+    if (validateEmail(form.email)) {
+      signUpWithEmailPassword(form.email, form.password)
         .then((userCredential) => {
           console.log(userCredential)
           router.replace('/login')
         })
-        .catch((err) => {
-          console.error(err)
-        })
+        .catch(toastAuthError)
     } else {
-      console.log('Email no valido')
+      toastEmailError()
     }
-  }
-
-  const onChangeEmail = (e) => {
-    setEmail(e.target.value)
-  }
-
-  const onChangePassword = (e) => {
-    setPassword(e.target.value)
   }
 
   return (
@@ -45,10 +38,13 @@ export default function Register () {
           <Logo />
           <p>Tu app de recetas digitales favorita</p>
           <label>Correo</label>
-          <input onChange={onChangeEmail} type="email" />
+          <input onChange={onChange.email} type="email" />
           <label>Contraseña</label>
-          <input onChange={onChangePassword} type="password" />
-          <AuthButton onClick={handleClick}>Registrarse</AuthButton>
+          <input onChange={onChange.password} type="password" />
+          <AuthButton disabled={disabled} onClick={handleSubmit}>
+            Registrarse
+          </AuthButton>
+          <ToastContainer />
         </form>
       </section>
       <style jsx>{`
