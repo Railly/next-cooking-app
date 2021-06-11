@@ -8,7 +8,12 @@ function MyApp ({ Component, pageProps }) {
   const { pathname } = useRouter()
 
   const appPages = {
-    '/register': 'Registro'
+    '/app': 'App'
+  }
+
+  const authPages = {
+    '/register': 'Registro',
+    '/login': 'Iniciar Sesion'
   }
 
   const landingPages = {
@@ -20,7 +25,10 @@ function MyApp ({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>Foody - {landingPages[pathname] || appPages[pathname]}</title>
+        <title>
+          Foody -
+          {landingPages[pathname] || authPages[pathname] || appPages[pathname]}
+        </title>
         <meta
           name="description"
           content="Tu app de recetas digitales favorita"
