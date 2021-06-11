@@ -1,3 +1,4 @@
+import Button from 'components/Button'
 import Logo from 'components/Logo'
 
 export default function Register () {
@@ -15,11 +16,15 @@ export default function Register () {
           <input type="email" />
           <label>Contraseña</label>
           <input type="password" />
+          <Button type="terciary" toPath="/">
+            Registrarse
+          </Button>
         </form>
       </section>
       <style jsx>{`
         form > :global(svg) {
         }
+
         p {
           color: var(--gray);
           font-size: 0.8em;
@@ -36,11 +41,19 @@ export default function Register () {
 
         input {
           margin: 1.5em 0;
+          border: 1px solid var(--gray);
+        }
+
+        input:focus {
+          outline: none;
+          box-shadow: 0 0 1px 1px var(--orange);
         }
 
         form {
           background-color: var(--white);
           display: flex;
+          justify-content: center;
+          align-items: center;
           flex-direction: column;
           width: 100%;
           padding: 2em;

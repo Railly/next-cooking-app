@@ -18,10 +18,12 @@ export default function Home () {
             <br /> Crea tu cuenta y empieza tu nuevo estilo de vida!
           </p>
           <div>
-            <Button primary toPath="/register">
+            <Button type="primary" toPath="/register">
               PRU&Eacute;BALO GRATIS
             </Button>
-            <Button toPath="/login">INICIAR SESI&Oacute;N</Button>
+            <Button type="secondary" toPath="/login">
+              INICIAR SESI&Oacute;N
+            </Button>
           </div>
         </section>
         <Illustration />
