@@ -1,24 +1,36 @@
-import Button from 'components/Button'
+import AuthButton from 'components/AuthButton'
 import Logo from 'components/Logo'
+import { signUpWithEmailPassword } from 'firebase/client'
+import { useRouter } from 'next/router'
 
 export default function Register () {
-  const handleSubmit = () => {}
+  const router = useRouter()
+
+  const handleClick = (e) => {
+    e.preventDefault()
+    const email = 'angelicarivasarana@gmail.com'
+    const password = 'hunter123'
+    signUpWithEmailPassword(email, password)
+      .then((userCredential) => {
+        console.log(userCredential)
+        router.replace('/login')
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }
 
   return (
     <>
       <section>
-        <form onSubmit={handleSubmit}>
+        <form>
           <Logo />
           <p>Tu app de recetas digitales favorita</p>
-          <label>Nombre de usuario</label>
-          <input type="text" />
           <label>Correo</label>
           <input type="email" />
           <label>Contraseña</label>
           <input type="password" />
-          <Button type="terciary" toPath="/">
-            Registrarse
-          </Button>
+          <AuthButton onClick={handleClick}>Registrarse</AuthButton>
         </form>
       </section>
       <style jsx>{`
