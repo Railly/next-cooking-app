@@ -1,16 +1,16 @@
 import { device } from 'styles/devices'
 
-export default function Button ({ children, onClick }) {
+export default function Button ({ children, onClick, disabled }) {
   return (
     <>
-      <button onClick={onClick}>
+      <button onClick={onClick} disabled={disabled}>
         <a>{children}</a>
       </button>
       <style jsx>{`
         button {
           border: 1px solid transparent;
           width: 20em;
-          background-color: var(--black);
+          background-color: ${disabled ? 'var(--gray)' : 'var(--black)'};
           color: var(--white);
           border-radius: 6px;
           padding: 0.8em 0;

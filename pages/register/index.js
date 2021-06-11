@@ -2,22 +2,40 @@ import AuthButton from 'components/AuthButton'
 import Logo from 'components/Logo'
 import { signUpWithEmailPassword } from 'firebase/client'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 export default function Register () {
   const router = useRouter()
+  const [email, setEmail] = useState(null)
+  const [password, setPassword] = useState(null)
+
+  const validateEmail = (email) => {
+    const re = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
+    return re.test(email)
+  }
 
   const handleClick = (e) => {
     e.preventDefault()
-    const email = 'angelicarivasarana@gmail.com'
-    const password = 'hunter123'
-    signUpWithEmailPassword(email, password)
-      .then((userCredential) => {
-        console.log(userCredential)
-        router.replace('/login')
-      })
-      .catch((err) => {
-        console.error(err)
-      })
+    if (validateEmail(email)) {
+      signUpWithEmailPassword(email, password)
+        .then((userCredential) => {
+          console.log(userCredential)
+          router.replace('/login')
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+    } else {
+      console.log('Email no valido')
+    }
+  }
+
+  const onChangeEmail = (e) => {
+    setEmail(e.target.value)
+  }
+
+  const onChangePassword = (e) => {
+    setPassword(e.target.value)
   }
 
   return (
@@ -27,9 +45,9 @@ export default function Register () {
           <Logo />
           <p>Tu app de recetas digitales favorita</p>
           <label>Correo</label>
-          <input type="email" />
+          <input onChange={onChangeEmail} type="email" />
           <label>Contraseña</label>
-          <input type="password" />
+          <input onChange={onChangePassword} type="password" />
           <AuthButton onClick={handleClick}>Registrarse</AuthButton>
         </form>
       </section>
