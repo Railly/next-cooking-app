@@ -8,9 +8,7 @@ export default function App () {
   const router = useRouter()
 
   const handleClick = () => {
-    signOut().then(() => {
-      router.replace('/login')
-    })
+    signOut().then(() => {})
   }
 
   return (

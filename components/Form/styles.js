@@ -39,6 +39,6 @@ export default css`
   }
 
   h1 {
-    margin: 0;
+    margin: 1em 0;
   }
 `

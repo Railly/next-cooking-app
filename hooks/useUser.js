@@ -12,14 +12,15 @@ export default function useUser () {
   const router = useRouter()
 
   useEffect(() => {
-    onAuthStateChanged(setUser)
+    const unsubscribe = onAuthStateChanged(setUser)
+    return () => unsubscribe()
   }, [])
 
   useEffect(() => {
     if (router.pathname !== '/app') {
       user !== USER_STATES.NOT_LOGGED && user && router.push('/app')
     } else {
-      user === USER_STATES.NOT_LOGGED && router.push('/register')
+      user === USER_STATES.NOT_LOGGED && router.push('/login')
     }
   }, [user])
 

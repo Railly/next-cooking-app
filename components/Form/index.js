@@ -8,6 +8,7 @@ export default function Form ({ handleSubmit, onChange, disabled, buttonText }) 
     <>
       <section>
         <form>
+          <h1>{buttonText}</h1>
           <Logo />
           <p>Tu app de recetas digitales favorita</p>
           <label>Correo</label>
