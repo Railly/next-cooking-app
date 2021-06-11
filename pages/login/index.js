@@ -1,34 +1,24 @@
 import AuthButton from 'components/AuthButton'
 import Logo from 'components/Logo'
-import { ToastContainer, toast } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { signInWithEmailPassword } from 'firebase/client'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import useCustomToast from 'hooks/useCustomToast'
 
 export default function Login () {
   const router = useRouter()
   const [disabled, setDisabled] = useState(false)
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
+  const { toastLoginEmailError, toastLoginAuthError } = useCustomToast(
+    setDisabled
+  )
 
   const validateEmail = (email) => {
     const re = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
     return re.test(email)
-  }
-
-  const toastHandler = {
-    'auth/user-not-found': {
-      message: 'Correo no registrado',
-      toastId: 'USER_NOT_REGISTERED'
-    },
-    'auth/wrong-password': {
-      message: 'Contraseña y/o usuario incorrectos',
-      toastId: 'WRONG_PASSWORD'
-    },
-    position: toast.POSITION.TOP_LEFT,
-    duration: 2500,
-    callback: () => setDisabled(false)
   }
 
   const handleClick = (e) => {
@@ -40,21 +30,9 @@ export default function Login () {
           console.log(userCredential)
           router.replace('/app')
         })
-        .catch((err) => {
-          toast.error(toastHandler[err.code].message, {
-            toastId: toastHandler[err.code].toastId,
-            position: toastHandler.position,
-            autoClose: toastHandler.duration,
-            onClose: toastHandler.callback
-          })
-        })
+        .catch(toastLoginAuthError)
     } else {
-      toast.error('Email invalido!!', {
-        toastId: 'INVALID_EMAIL',
-        position: toastHandler.position,
-        autoClose: toastHandler.duration,
-        onClose: toastHandler.callback
-      })
+      toastLoginEmailError()
     }
   }
 
