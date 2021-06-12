@@ -10,6 +10,10 @@ export default css`
     margin-bottom: 2em;
   }
 
+  a {
+    color: var(--blue);
+  }
+
   section {
     display: flex;
     justify-content: center;

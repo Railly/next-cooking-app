@@ -14,7 +14,8 @@ export default function Button ({ children, onClick, disabled }) {
           color: var(--white);
           border-radius: 6px;
           padding: 0.8em 0;
-          margin-top: 4em;
+          margin-top: 2em;
+          margin-bottom: 1em;
         }
         button:hover,
         button:focus {
