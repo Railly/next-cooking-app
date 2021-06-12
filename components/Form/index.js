@@ -21,9 +21,8 @@ export default function Form ({ handleSubmit, onChange, disabled, buttonText }) 
   const handleGoogle = (e) => {
     e.preventDefault()
     loginWithGoogle()
-      .then((result) => {
-        router.replace('/app')
-        console.log(result)
+      .then(() => {
+        router.replace('/browse')
       })
       .catch((err) => console.error(err))
   }
