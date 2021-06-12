@@ -1,5 +1,5 @@
-import Illustration from 'components/Illustration'
 import Button from 'components/Button'
+import Illustration from 'components/Icons/Illustration'
 import styles from './styles'
 
 export default function Home () {

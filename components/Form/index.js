@@ -1,5 +1,5 @@
 import AuthButton from 'components/AuthButton'
-import Logo from 'components/Logo'
+import Logo from 'components/Icons/Logo'
 import Link from 'next/link'
 import { ToastContainer } from 'react-toastify'
 import styles from './styles'
@@ -27,8 +27,11 @@ export default function Form ({ handleSubmit, onChange, disabled, buttonText }) 
           <label>Contraseña</label>
           <input onChange={onChange.password} type="password" />
 
-          <AuthButton disabled={disabled} onClick={handleSubmit}>
+          <AuthButton disabled={disabled} onClick={handleSubmit} type="primary">
             {buttonText}
+          </AuthButton>
+          <AuthButton disabled={disabled} onClick={handleSubmit} type="google">
+            Continuar con Google
           </AuthButton>
           <div>
             <p>
