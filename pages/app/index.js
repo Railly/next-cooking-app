@@ -20,7 +20,9 @@ export default function App () {
         : (
         <>
           <h1>App</h1>
-          <AuthButton onClick={handleClick}>Cerrar Sesion</AuthButton>
+          <AuthButton onClick={handleClick} type="primary">
+            Cerrar Sesion
+          </AuthButton>
         </>
           )}
     </>

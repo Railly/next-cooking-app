@@ -28,12 +28,9 @@ export default function Button ({ children, onClick, disabled, type }) {
     <>
       <button onClick={onClick} disabled={disabled}>
         {type === 'google' && <Google width={20} height={20} />}
-        <a>{children}</a>
+        {children}
       </button>
       <style jsx>{`
-        button > :global(svg) {
-        }
-
         button {
           display: flex;
           justify-content: space-evenly;

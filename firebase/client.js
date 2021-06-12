@@ -25,8 +25,13 @@ export const signOut = () => {
   return firebase.auth().signOut()
 }
 
+export const loginWithGoogle = () => {
+  const provider = new firebase.auth.GoogleAuthProvider()
+  return firebase.auth().signInWithPopup(provider)
+}
+
 export const onAuthStateChanged = (onChange) => {
-  return firebase.auth().onAuthStateChanged((user) => {
+  return firebase.auth().onAuthStateChanged(async (user) => {
     const normalizeUser = user || null
     onChange(normalizeUser)
   })
