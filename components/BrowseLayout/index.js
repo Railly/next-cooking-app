@@ -1,17 +1,21 @@
+import Avatar from 'components/Avatar'
 import Books from 'components/Icons/Books'
 import BurguerMenu from 'components/Icons/BurguerMenu'
 import Calendar from 'components/Icons/Calendar'
 import Feedback from 'components/Icons/Feedback'
-import Logo from 'components/Icons/Logo'
 import Logout from 'components/Icons/Logout'
 import Search from 'components/Icons/Search'
 import Settings from 'components/Icons/Settings'
+import useUser, { USER_STATES } from 'hooks/useUser'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+
+import { signOut } from 'firebase/client'
 import { device } from 'styles/devices'
 
 export default function BrowseLayout () {
+  const user = useUser()
   const { pathname } = useRouter()
   const [open, setOpen] = useState(false)
   const currentPage = (path) => {
@@ -21,55 +25,56 @@ export default function BrowseLayout () {
     setOpen(!open)
   }
 
+  const handleSignOut = () => {
+    signOut().then(() => {})
+  }
+
   return (
     <>
       <nav>
         <ul>
-          <Link href="/">
-            <a>{/** <Logo />**/}</a>
-          </Link>
-          <div>
-            <li>
-              <Link href="/">
-                <a onClick={handleClick} className={currentPage('/')}>
+          {user === USER_STATES.NOT_KNOWN && <h1>Cargande</h1>}
+          {user && <Avatar alt={user.username} src={user.avatar} />}
+          <div className="main_options">
+            <li className={currentPage('/browse')}>
+              <Link href="/browse">
+                <a onClick={handleClick}>
                   <Books />
                 </a>
               </Link>
             </li>
-            <li>
-              <Link href="/services">
-                <a onClick={handleClick} className={currentPage('/services')}>
+            <li className={currentPage('/browse/search')}>
+              <Link href="/browse/search">
+                <a onClick={handleClick}>
                   <Search />
                 </a>
               </Link>
             </li>
-            <li>
-              <Link href="/pricing">
-                <a onClick={handleClick} className={currentPage('/pricing')}>
+            <li className={currentPage('/browse/planner')}>
+              <Link href="/browse/planner">
+                <a onClick={handleClick}>
                   <Calendar />
                 </a>
               </Link>
             </li>
-            <li>
-              <Link href="/pricing">
-                <a onClick={handleClick} className={currentPage('/pricing')}>
+            <li className={currentPage('/browse/settings')}>
+              <Link href="/browse/settings">
+                <a onClick={handleClick}>
                   <Settings />
                 </a>
               </Link>
             </li>
-            <li>
-              <Link href="/pricing">
-                <a onClick={handleClick} className={currentPage('/pricing')}>
+          </div>
+          <div className="sec_options">
+            <li className={currentPage('/browse/feedback')}>
+              <Link href="/browse/feedback">
+                <a onClick={handleClick}>
                   <Feedback />
                 </a>
               </Link>
             </li>
-            <li>
-              <Link href="/pricing">
-                <a onClick={handleClick} className={currentPage('/pricing')}>
-                  <Logout />
-                </a>
-              </Link>
+            <li className="logout_icon" onClick={handleSignOut}>
+              <Logout />
             </li>
           </div>
           <BurguerMenu onClick={handleClick} />
@@ -79,27 +84,48 @@ export default function BrowseLayout () {
         li {
           list-style: none;
           display: flex;
+          justify-content: center;
+        }
+
+        a {
+          display: flex;
+          justify-content: center;
           align-items: center;
+          height: 2.4em;
+          width: 3.4em;
         }
 
         ul {
           display: flex;
+          justify-content: space-between;
           align-items: center;
           flex-direction: column;
           padding: 0;
+          margin: 0;
+          width: 3.5em;
+        }
+        .logout_icon {
+          cursor: pointer;
         }
 
-        div {
+        .main_options {
           display: flex;
           flex-direction: column;
-          justify-content: space-around;
+          justify-content: space-between;
+          height: 13em;
+        }
+
+        .sec_options {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-evenly;
+          height: 10em;
         }
 
         nav {
           display: flex;
           justify-content: center;
           background-color: var(--blue);
-          width: 3em;
           height: 100vh;
         }
 
@@ -108,7 +134,7 @@ export default function BrowseLayout () {
         }
 
         .current_page {
-          color: #ff6961;
+          background-color: #3875ab;
         }
 
         @media ${device.mobileL} {
@@ -143,7 +169,7 @@ export default function BrowseLayout () {
             margin-top: 5em;
           }
           .current_page {
-            color: var(--white);
+            background-color: red;
           }
           nav {
             display: flex;
