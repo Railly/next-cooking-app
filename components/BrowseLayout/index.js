@@ -33,7 +33,7 @@ export default function BrowseLayout () {
     <>
       <nav>
         <ul>
-          {user === USER_STATES.NOT_KNOWN && <h1>Cargande</h1>}
+          {user === USER_STATES.NOT_KNOWN && <Avatar alt="photo template" />}
           {user && <Avatar alt={user.username} src={user.avatar} />}
           <div className="main_options">
             <li className={currentPage('/browse')}>

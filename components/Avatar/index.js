@@ -2,14 +2,22 @@ export default function Avatar ({ alt, src }) {
   return (
     <>
       <figure>
-        <img alt={alt} src={src} title={alt} />
+        {src ? <img alt={alt} src={src} title={alt} /> : <div></div>}
       </figure>
 
       <style jsx>{`
         img {
           border-radius: 9999px;
           border: 2px solid var(--yellow);
-          width: 40;
+          width: 40px;
+          height: 40px;
+        }
+
+        div {
+          border-radius: 9999px;
+          border: 2px solid var(--yellow);
+          background-color: var(--light-blue);
+          width: 40px;
           height: 40px;
         }
 
