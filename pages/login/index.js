@@ -22,7 +22,7 @@ export default function Login () {
       signInWithEmailPassword(form.email, form.password)
         .then((userCredential) => {
           console.log(userCredential)
-          router.replace('/app')
+          router.replace('/browse')
         })
         .catch(toastAuthError)
     } else {

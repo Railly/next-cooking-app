@@ -1,5 +1,5 @@
-import BurguerMenu from 'components/BurguerMenu'
-import Logo from 'components/Logo'
+import BurguerMenu from 'components/Icons/BurguerMenu'
+import Logo from 'components/Icons/Logo'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'

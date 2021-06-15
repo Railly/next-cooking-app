@@ -1,5 +1,6 @@
 import { onAuthStateChanged } from 'firebase/client'
 import { useRouter } from 'next/router'
+import { BROWSE_PAGES } from 'pages/_app'
 import { useState, useEffect } from 'react'
 
 export const USER_STATES = {
@@ -17,8 +18,9 @@ export default function useUser () {
   }, [])
 
   useEffect(() => {
-    if (router.pathname !== '/app') {
-      user !== USER_STATES.NOT_LOGGED && user && router.push('/app')
+    console.log(BROWSE_PAGES[router.pathname])
+    if (!BROWSE_PAGES[router.pathname]) {
+      user !== USER_STATES.NOT_LOGGED && user && router.push('/browse')
     } else {
       user === USER_STATES.NOT_LOGGED && router.push('/login')
     }

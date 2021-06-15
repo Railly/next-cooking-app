@@ -1,10 +1,13 @@
-import AuthButton from 'components/AuthButton'
-import Logo from 'components/Logo'
+import AppButton from 'components/AppButton'
+import Logo from 'components/Icons/Logo'
+import { loginWithGoogle } from 'firebase/client'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { ToastContainer } from 'react-toastify'
 import styles from './styles'
 
 export default function Form ({ handleSubmit, onChange, disabled, buttonText }) {
+  const router = useRouter()
   const toPath = {
     'Iniciar Sesion': {
       link: '/register',
@@ -15,6 +18,15 @@ export default function Form ({ handleSubmit, onChange, disabled, buttonText }) 
       text: 'Inicia Sesion'
     }
   }
+  const handleGoogle = (e) => {
+    e.preventDefault()
+    loginWithGoogle()
+      .then(() => {
+        router.replace('/browse')
+      })
+      .catch((err) => console.error(err))
+  }
+
   return (
     <>
       <section>
@@ -27,9 +39,12 @@ export default function Form ({ handleSubmit, onChange, disabled, buttonText }) 
           <label>Contraseña</label>
           <input onChange={onChange.password} type="password" />
 
-          <AuthButton disabled={disabled} onClick={handleSubmit}>
+          <AppButton disabled={disabled} onClick={handleSubmit} type="primary">
             {buttonText}
-          </AuthButton>
+          </AppButton>
+          <AppButton disabled={disabled} onClick={handleGoogle} type="google">
+            Continuar con Google
+          </AppButton>
           <div>
             <p>
               {buttonText === 'Iniciar Sesion' ? 'Aun no ' : 'Ya '}tienes una

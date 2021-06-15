@@ -25,9 +25,24 @@ export const signOut = () => {
   return firebase.auth().signOut()
 }
 
+const mapUserFromFirebaseAuthToUser = (user) => {
+  const { displayName, email, photoURL, uid } = user
+  return {
+    avatar: photoURL,
+    username: displayName,
+    email,
+    uid
+  }
+}
+
+export const loginWithGoogle = () => {
+  const provider = new firebase.auth.GoogleAuthProvider()
+  return firebase.auth().signInWithPopup(provider)
+}
+
 export const onAuthStateChanged = (onChange) => {
   return firebase.auth().onAuthStateChanged((user) => {
-    const normalizeUser = user || null
+    const normalizeUser = user ? mapUserFromFirebaseAuthToUser(user) : null
     onChange(normalizeUser)
   })
 }
