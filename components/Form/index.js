@@ -1,4 +1,4 @@
-import AuthButton from 'components/AuthButton'
+import AppButton from 'components/AppButton'
 import Logo from 'components/Icons/Logo'
 import { loginWithGoogle } from 'firebase/client'
 import Link from 'next/link'
@@ -39,12 +39,12 @@ export default function Form ({ handleSubmit, onChange, disabled, buttonText }) 
           <label>Contraseña</label>
           <input onChange={onChange.password} type="password" />
 
-          <AuthButton disabled={disabled} onClick={handleSubmit} type="primary">
+          <AppButton disabled={disabled} onClick={handleSubmit} type="primary">
             {buttonText}
-          </AuthButton>
-          <AuthButton disabled={disabled} onClick={handleGoogle} type="google">
+          </AppButton>
+          <AppButton disabled={disabled} onClick={handleGoogle} type="google">
             Continuar con Google
-          </AuthButton>
+          </AppButton>
           <div>
             <p>
               {buttonText === 'Iniciar Sesion' ? 'Aun no ' : 'Ya '}tienes una

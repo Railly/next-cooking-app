@@ -1,4 +1,4 @@
-import Button from 'components/Button'
+import LandingButton from 'components/LandingButton'
 import Illustration from 'components/Icons/Illustration'
 import styles from './styles'
 
@@ -18,12 +18,12 @@ export default function Home () {
             <br /> Crea tu cuenta y empieza tu nuevo estilo de vida!
           </p>
           <div>
-            <Button type="primary" toPath="/register">
+            <LandingButton type="primary" toPath="/register">
               PRU&Eacute;BALO GRATIS
-            </Button>
-            <Button type="secondary" toPath="/login">
+            </LandingButton>
+            <LandingButton type="secondary" toPath="/login">
               INICIAR SESI&Oacute;N
-            </Button>
+            </LandingButton>
           </div>
         </section>
         <Illustration />

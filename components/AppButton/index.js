@@ -32,6 +32,7 @@ export default function Button ({ children, onClick, disabled, type }) {
       </button>
       <style jsx>{`
         button {
+          cursor: pointer;
           display: flex;
           justify-content: space-evenly;
           align-items: center;
