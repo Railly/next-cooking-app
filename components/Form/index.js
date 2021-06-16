@@ -1,4 +1,4 @@
-import AppButton from 'components/AppButton'
+import AppButton from 'components/Buttons/AppButton'
 import Logo from 'components/Icons/Logo'
 import { loginWithGoogle } from 'firebase/client'
 import Link from 'next/link'

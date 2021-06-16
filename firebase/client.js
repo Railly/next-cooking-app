@@ -1,5 +1,6 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDjKjfXnXsRCY7sAjqcPaWHDExwXCwqC6M',
@@ -12,6 +13,8 @@ const firebaseConfig = {
 }
 
 !firebase.apps.length && firebase.initializeApp(firebaseConfig)
+
+const db = firebase.firestore()
 
 export const signUpWithEmailPassword = (email, password) => {
   return firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -44,5 +47,16 @@ export const onAuthStateChanged = (onChange) => {
   return firebase.auth().onAuthStateChanged((user) => {
     const normalizeUser = user ? mapUserFromFirebaseAuthToUser(user) : null
     onChange(normalizeUser)
+  })
+}
+
+export const addCookbook = ({ title, ingredients, steps, img, userId }) => {
+  return db.collection('cookboks').add({
+    title,
+    ingredients,
+    steps,
+    img,
+    userId,
+    createdAt: firebase.firestore.Timestamp.fromDate(new Date())
   })
 }
