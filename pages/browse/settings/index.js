@@ -1,13 +1,13 @@
-import AuthButton from 'components/AuthButton'
+import AppButton from 'components/Buttons/AppButton'
 
 export default function Settings () {
   return (
     <>
       <>
         <h1>Settings</h1>
-        <AuthButton onClick={() => {}} type="primary">
+        <AppButton onClick={() => {}} type="primary">
           Cerrar Sesion
-        </AuthButton>
+        </AppButton>
       </>
     </>
   )

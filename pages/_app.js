@@ -1,12 +1,13 @@
-import AuthLayout from 'components/AuthLayout'
-import BrowseLayout from 'components/BrowseLayout'
-import LandingLayout from 'components/LandingLayout'
+import AuthLayout from 'components/Layouts/AuthLayout'
+import BrowseLayout from 'components/Layouts/BrowseLayout'
+import LandingLayout from 'components/Layouts/LandingLayout'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import '../styles/globals.css'
 
 export const BROWSE_PAGES = {
   '/browse': 'Navegar',
+  '/browse/add-cookbook': 'Nuevo Libro',
   '/browse/search': 'Buscar',
   '/browse/planner': 'Planeador',
   '/browse/settings': 'Configuracion',
