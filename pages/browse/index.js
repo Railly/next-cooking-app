@@ -2,13 +2,26 @@ import AppButton from 'components/Buttons/AppButton'
 import Cookbook from 'components/Cookbook'
 import FourCharacters from 'components/Icons/FourCharacters'
 import Logo from 'components/Icons/Logo'
-import { useRouter } from 'next/router'
+import Modal from 'components/Modal'
+import { fetchLatestCookbooks } from 'firebase/client'
+import useUser, { USER_STATES } from 'hooks/useUser'
+import { useEffect, useState } from 'react'
 
 export default function App () {
-  const router = useRouter()
-  const handleClick = () => {
-    router.push('/browse/add-cookbook')
+  const user = useUser()
+  const [isOpen, setIsOpen] = useState(false)
+  const [insertion, setInsertion] = useState(true)
+  const [cookbooks, setCookbooks] = useState([])
+
+  const toggleModal = () => {
+    setIsOpen(!isOpen)
   }
+
+  useEffect(() => {
+    user && !insertion && fetchLatestCookbooks(user.uid).then(setCookbooks)
+    setInsertion(false)
+    console.log('ga')
+  }, [user, insertion])
 
   return (
     <>
@@ -17,53 +30,65 @@ export default function App () {
           <Logo />
         </div>
         <p>Crea un libro de cocina a selecciona uno :)</p>
-        {/* TODO* We must fetch all the cookbooks here */}
-        <div className="cookbooks"></div>
-        <div>
-          <AppButton onClick={handleClick} type="primary">
-            NUEVO LIBRO DE COCINA
-          </AppButton>
-        </div>
+        {USER_STATES.NOT_KNOWN && <h1>Cargando</h1>}
+        {user && (
+          <div className="cookbooks">
+            {cookbooks.map((cookbook) => {
+              console.log(cookbook)
+              return <Cookbook key={cookbook.id} {...cookbook} />
+            })}
+            <AppButton onClick={toggleModal} type="primary">
+              NUEVO LIBRO DE COCINA
+            </AppButton>
+          </div>
+        )}
       </section>
       <section className="second_page">
         <FourCharacters />
       </section>
-      <style jsx>{`
-        .cookbooks {
-          align-items: center;
-          display: flex;
-          flex-direction: column;
-        }
+      <Modal
+        toggleModal={toggleModal}
+        isOpen={isOpen}
+        setInsertion={setInsertion}
+      />
+      <style jsx>
+        {`
+          .cookbooks {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+          }
 
-        .second_page {
-          align-items: center;
-          background-color: var(--blue);
-          display: flex;
-          justify-content: center;
-          margin: 0;
-        }
+          .second_page {
+            align-items: center;
+            background-color: var(--blue);
+            display: flex;
+            justify-content: center;
+            margin: 0;
+          }
 
-        div {
-          display: flex;
-          justify-content: center;
-        }
+          div {
+            display: flex;
+            justify-content: center;
+          }
 
-        section > :global(svg) {
-          fill: red;
-        }
+          section > :global(svg) {
+            fill: red;
+          }
 
-        p {
-          padding: 1em;
-          font-size: 0.9em;
-          font-weight: 600;
-          color: var(--gray);
-          margin: 0;
-        }
+          p {
+            padding: 1em;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--gray);
+            margin: 0;
+          }
 
-        section {
-          margin-top: 2em;
-        }
-      `}</style>
+          section {
+            margin-top: 2em;
+          }
+        `}
+      </style>
     </>
   )
 }

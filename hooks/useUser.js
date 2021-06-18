@@ -18,7 +18,6 @@ export default function useUser () {
   }, [])
 
   useEffect(() => {
-    console.log(BROWSE_PAGES[router.pathname])
     if (!BROWSE_PAGES[router.pathname]) {
       user !== USER_STATES.NOT_LOGGED && user && router.push('/browse')
     } else {

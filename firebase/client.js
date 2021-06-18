@@ -3,13 +3,13 @@ import 'firebase/auth'
 import 'firebase/firestore'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDjKjfXnXsRCY7sAjqcPaWHDExwXCwqC6M',
-  authDomain: 'foody-d471b.firebaseapp.com',
-  projectId: 'foody-d471b',
-  storageBucket: 'foody-d471b.appspot.com',
-  messagingSenderId: '381152680308',
-  appId: '1:381152680308:web:39c4d00d913d834b5f7421',
-  measurementId: 'G-2X5GNQPKS9'
+  apiKey: 'AIzaSyCeTLwrUUsVLltj2x2tU3uNhoszgWrUl3A',
+  authDomain: 'foody-87679.firebaseapp.com',
+  projectId: 'foody-87679',
+  storageBucket: 'foody-87679.appspot.com',
+  messagingSenderId: '738187282540',
+  appId: '1:738187282540:web:9c57c59bfd15870c7eb049',
+  measurementId: 'G-KKSLG2L1KF'
 }
 
 !firebase.apps.length && firebase.initializeApp(firebaseConfig)
@@ -50,13 +50,59 @@ export const onAuthStateChanged = (onChange) => {
   })
 }
 
-export const addCookbook = ({ title, ingredients, steps, img, userId }) => {
-  return db.collection('cookboks').add({
-    title,
-    ingredients,
-    steps,
-    img,
+export const addCookbook = ({ name, userId }) => {
+  return db.collection('cookbooks').add({
+    name,
     userId,
     createdAt: firebase.firestore.Timestamp.fromDate(new Date())
   })
+}
+// TODO: Add Recipe DB
+export const addRecipe = ({ name, userId }) => {
+  return db.collection('cookbooks').add({
+    name,
+    userId,
+    createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+  })
+}
+
+export const fetchLatestCookbooks = async (uid) => {
+  return db
+    .collection('cookbooks')
+    .where('userId', '==', `${uid}`)
+    .orderBy('createdAt')
+    .get()
+    .then((snapshot) => {
+      return snapshot.docs.map((doc) => {
+        const data = doc.data()
+        const id = doc.id
+        const { createdAt } = data
+
+        return {
+          ...data,
+          id,
+          createdAt: +createdAt.toDate()
+        }
+      })
+    })
+}
+
+export const fetchLatestRecipes = async (bookId) => {
+  return db
+    .collection('cookbooks')
+    .doc(bookId)
+    .get()
+    .then((snapshot) => {
+      return snapshot.docs.map((doc) => {
+        const data = doc.data()
+        const id = doc.id
+        const { createdAt } = data
+
+        return {
+          ...data,
+          id,
+          createdAt: +createdAt.toDate()
+        }
+      })
+    })
 }
