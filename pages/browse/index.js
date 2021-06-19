@@ -35,9 +35,11 @@ export default function App () {
               console.log(cookbook)
               return <Cookbook key={cookbook.id} {...cookbook} />
             })}
-            <AppButton onClick={toggleModal} type="primary">
-              NUEVO LIBRO DE COCINA
-            </AppButton>
+            <div className="button_container">
+              <AppButton onClick={toggleModal} type="primary">
+                NUEVO LIBRO DE COCINA
+              </AppButton>
+            </div>
           </div>
         )}
       </section>
@@ -47,6 +49,15 @@ export default function App () {
       <Modal toggleModal={toggleModal} isOpen={isOpen} />
       <style jsx>
         {`
+          .button_container {
+            position: sticky;
+            padding-bottom: 1em;
+            bottom: 0;
+            backdrop-filter: blur(5px);
+            background-color: #ffffff11;
+            width: 100%;
+          }
+
           .cookbooks {
             align-items: center;
             display: flex;
@@ -79,7 +90,10 @@ export default function App () {
           }
 
           section {
-            margin-top: 2em;
+            padding-top: 2em;
+            overflow-y: auto;
+            height: 100vh;
+            position: relative;
           }
         `}
       </style>
