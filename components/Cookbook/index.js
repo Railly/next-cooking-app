@@ -1,12 +1,17 @@
 import Arrow from 'components/Icons/Arrow'
+import Link from 'next/link'
 
-export default function Cookbook ({ name }) {
+export default function Cookbook ({ name, id }) {
   return (
     <>
-      <button>
-        {name}
-        <Arrow />
-      </button>
+      <Link href={`/browse/${id}`}>
+        <a>
+          <button>
+            {name}
+            <Arrow />
+          </button>
+        </a>
+      </Link>
       <style jsx>{`
         button {
           align-items: center;
