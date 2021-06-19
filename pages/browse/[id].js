@@ -10,16 +10,18 @@ export default function CookbookPage (props) {
   )
 }
 
-CookbookPage.getInitialProps = (context) => {
-  const { query, res } = context
-  const { id } = query
+export async function getServerSideProps (context) {
+  const { params, res } = context
+  const { id } = params
 
-  return fetch(`http://localhost:3000/api/cookbooks/${id}`).then(
-    (apiReponse) => {
-      if (apiReponse.ok) return apiReponse.json()
-      if (res) {
-        res.writeHead(400).end()
-      }
-    }
-  )
+  const apiReponse = await fetch(`http://localhost:3000/api/cookbooks/${id}`)
+
+  if (apiReponse.ok) {
+    const props = await apiReponse.json()
+    return { props }
+  }
+
+  if (res) {
+    res.writeHead(400).end()
+  }
 }

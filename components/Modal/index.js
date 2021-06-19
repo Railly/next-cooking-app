@@ -10,7 +10,7 @@ const COOKBOOK_STATES = {
   ERROR: -1
 }
 
-export default function Modal ({ toggleModal, isOpen, setInsertion }) {
+export default function Modal ({ toggleModal, isOpen }) {
   const user = useUser()
   const [cookbookName, setCookbookName] = useState(null)
   const [status, setStatus] = useState(COOKBOOK_STATES.NOT_KNOWN)
@@ -23,10 +23,9 @@ export default function Modal ({ toggleModal, isOpen, setInsertion }) {
   const handleClick = (e) => {
     e.preventDefault()
     setStatus(COOKBOOK_STATES.LOADING)
+    toggleModal()
     addCookbook({ name: cookbookName, userId: user.uid })
       .then(() => {
-        toggleModal()
-        setInsertion(true)
         setStatus(COOKBOOK_STATES.SUCCESS)
       })
       .catch((e) => {

@@ -3,14 +3,13 @@ import Cookbook from 'components/Cookbook'
 import FourCharacters from 'components/Icons/FourCharacters'
 import Logo from 'components/Icons/Logo'
 import Modal from 'components/Modal'
-import { fetchLatestCookbooks } from 'firebase/client'
+import { listenLatestDevits } from 'firebase/client'
 import useUser, { USER_STATES } from 'hooks/useUser'
 import { useEffect, useState } from 'react'
 
 export default function App () {
   const user = useUser()
   const [isOpen, setIsOpen] = useState(false)
-  const [insertion, setInsertion] = useState(true)
   const [cookbooks, setCookbooks] = useState([])
 
   const toggleModal = () => {
@@ -18,10 +17,9 @@ export default function App () {
   }
 
   useEffect(() => {
-    user && !insertion && fetchLatestCookbooks(user.uid).then(setCookbooks)
-    setInsertion(false)
-    console.log('ga')
-  }, [user, insertion])
+    // user && fetchLatestCookbooks(user.uid).then(setCookbooks)
+    user && listenLatestDevits(user.uid, setCookbooks)
+  }, [user])
 
   return (
     <>
@@ -30,7 +28,7 @@ export default function App () {
           <Logo />
         </div>
         <p>Crea un libro de cocina a selecciona uno :)</p>
-        {USER_STATES.NOT_KNOWN && <h1>Cargando</h1>}
+        {!user && <h1>Cargando</h1>}
         {user && (
           <div className="cookbooks">
             {cookbooks.map((cookbook) => {
@@ -46,11 +44,7 @@ export default function App () {
       <section className="second_page">
         <FourCharacters />
       </section>
-      <Modal
-        toggleModal={toggleModal}
-        isOpen={isOpen}
-        setInsertion={setInsertion}
-      />
+      <Modal toggleModal={toggleModal} isOpen={isOpen} />
       <style jsx>
         {`
           .cookbooks {
