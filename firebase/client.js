@@ -66,7 +66,7 @@ export const addRecipe = ({ name, userId }) => {
   })
 }
 
-const mapCookbooksFromFirebaseToCookbookObject = (doc) => {
+const mapFromFirebaseToObject = (doc) => {
   const data = doc.data()
   const id = doc.id
   const { createdAt } = data
@@ -79,29 +79,30 @@ const mapCookbooksFromFirebaseToCookbookObject = (doc) => {
 }
 
 // TODO: .limit(20)
-export const listenLatestDevits = (userId, callback) => {
+export const listenLatestCookbooks = (userId, callback) => {
   return db
     .collection('cookbooks')
     .where('userId', '==', `${userId}`)
     .orderBy('createdAt')
     .onSnapshot(({ docs }) => {
-      const newCookbooks = docs.map(mapCookbooksFromFirebaseToCookbookObject)
+      const newCookbooks = docs.map(mapFromFirebaseToObject)
       callback(newCookbooks)
     })
 }
 
-// export const fetchLatestCookbooks = async (uid) => {
-// return db
-// .collection('cookbooks')
-// .where('userId', '==', `${uid}`)
-// .orderBy('createdAt')
-// .get()
-// .then((snapshot) => {
-// return snapshot.docs.map(mapCookbooksFromFirebaseToCookbookObject)
-// })
-// }
+export const listenLatestRecipes = (cookbookId, callback) => {
+  return db
+    .collection('cookbooks')
+    .doc(`${cookbookId}`)
+    .collection('recipes')
+    .orderBy('createdAt')
+    .onSnapshot(({ docs }) => {
+      const newRecipes = docs.map(mapFromFirebaseToObject)
+      callback(newRecipes)
+    })
+}
 
-export const fetchLatestRecipes = async (bookId) => {
+export const fetchLatestCookbooks = async (bookId) => {
   return db
     .collection('cookbooks')
     .doc(bookId)

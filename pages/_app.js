@@ -14,7 +14,7 @@ export const BROWSE_PAGES = {
   '/browse/feedback': 'Sugerencias'
 }
 
-const re = /browse/
+export const re = /browse/
 
 const AUTH_PAGES = {
   '/register': 'Registro',

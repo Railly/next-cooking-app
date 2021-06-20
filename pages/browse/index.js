@@ -3,8 +3,8 @@ import Cookbook from 'components/Cookbook'
 import FourCharacters from 'components/Icons/FourCharacters'
 import Logo from 'components/Icons/Logo'
 import Modal from 'components/Modal'
-import { listenLatestDevits } from 'firebase/client'
-import useUser, { USER_STATES } from 'hooks/useUser'
+import { listenLatestCookbooks } from 'firebase/client'
+import useUser from 'hooks/useUser'
 import { useEffect, useState } from 'react'
 
 export default function App () {
@@ -18,7 +18,7 @@ export default function App () {
 
   useEffect(() => {
     // user && fetchLatestCookbooks(user.uid).then(setCookbooks)
-    user && listenLatestDevits(user.uid, setCookbooks)
+    user && listenLatestCookbooks(user.uid, setCookbooks)
   }, [user])
 
   return (
@@ -32,7 +32,6 @@ export default function App () {
         {user && (
           <div className="cookbooks">
             {cookbooks.map((cookbook) => {
-              console.log(cookbook)
               return <Cookbook key={cookbook.id} {...cookbook} />
             })}
             <div className="button_container">
@@ -77,16 +76,16 @@ export default function App () {
             justify-content: center;
           }
 
-          section > :global(svg) {
-            fill: red;
-          }
-
           p {
             padding: 1em;
             font-size: 0.9em;
             font-weight: 600;
             color: var(--gray);
             margin: 0;
+          }
+
+          section > :global(svg) {
+            fill: red;
           }
 
           section {

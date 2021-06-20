@@ -1,13 +1,8 @@
 import LandingButton from 'components/Buttons/LandingButton'
 import Illustration from 'components/Icons/Illustration'
 import styles from './styles'
-// import {addCookbook} from 'firebase/client'
 
 export default function Home () {
-  // const handleClick = () => [
-  // addCookbook()
-  // ]
-
   return (
     <>
       <main>
