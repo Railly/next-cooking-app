@@ -1,11 +1,10 @@
 import Arrow from 'components/Icons/Arrow'
 import Link from 'next/link'
-import { useEffect } from 'react'
 
 export default function Recipe ({ name, bookId, createdAt, id }) {
   return (
     <>
-      <Link href={`/browse/recipe/${id}`}>
+      <Link href={`/browse/book/${bookId}/${id}`}>
         <a>
           <button>
             {name}

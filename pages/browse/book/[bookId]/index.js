@@ -1,13 +1,20 @@
+import AppButton from 'components/Buttons/AppButton'
 import FourCharacters from 'components/Icons/FourCharacters'
 import Logo from 'components/Icons/Logo'
 import Recipe from 'components/Recipe'
 import { listenLatestRecipes } from 'firebase/client'
 import useUser from 'hooks/useUser'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 export default function CookbookPage (props) {
-  const [recipes, setRecipes] = useState([])
   const user = useUser()
+  const router = useRouter()
+  const [recipes, setRecipes] = useState([])
+
+  const handleClick = () => {
+    router.push('/browse/create-recipe')
+  }
 
   useEffect(() => {
     user && listenLatestRecipes(props.id, setRecipes)
@@ -26,6 +33,11 @@ export default function CookbookPage (props) {
             recipes.map((recipe) => (
               <Recipe key={recipe.id} bookId={props.id} {...recipe} />
             ))}
+          <div className="button_container">
+            <AppButton onClick={handleClick} type="primary">
+              NUEVO LIBRO DE COCINA
+            </AppButton>
+          </div>
         </div>
       </section>
       <section className="second_page">
@@ -72,9 +84,11 @@ export default function CookbookPage (props) {
 
 export async function getServerSideProps (context) {
   const { params, res } = context
-  const { id } = params
+  const { bookId } = params
 
-  const apiReponse = await fetch(`http://localhost:3000/api/cookbooks/${id}`)
+  const apiReponse = await fetch(
+    `http://localhost:3000/api/cookbooks/${bookId}`
+  )
 
   if (apiReponse.ok) {
     const props = await apiReponse.json()
