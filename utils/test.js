@@ -1,12 +1,5 @@
-function fn (valor) {
-  function a () {
-    valor++
-  }
-  return [valor, a]
-}
+const arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-const [a, b, c] = fn()
+const newArr = arr.splice(3, 1)
 
-const [contador, setContador] = useState(1)
-
-console.log(a, b, c)
+console.log(arr)

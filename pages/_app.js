@@ -57,7 +57,7 @@ function MyApp ({ Component, pageProps }) {
         </AuthLayout>
       )}
       {re.test(pathname) && (
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 30fr 45fr' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '2fr 25fr 45fr' }}>
           <BrowseLayout />
           <Component {...pageProps} />
         </div>

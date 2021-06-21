@@ -17,7 +17,6 @@ export default function App () {
   }
 
   useEffect(() => {
-    // user && fetchLatestCookbooks(user.uid).then(setCookbooks)
     user && listenLatestCookbooks(user.uid, setCookbooks)
   }, [user])
 
