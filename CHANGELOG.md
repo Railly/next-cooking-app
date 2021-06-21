@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.4](https://github.com/Railly/next-cooking-app/compare/v0.1.3...v0.1.4) (2021-06-21)
+
+
+### Features
+
+* Add ingredients & title with preview ([b99545d](https://github.com/Railly/next-cooking-app/commit/b99545d887d46b09b7a5a7d54ddf6e32f9d693c6))
+* Create view for recipes ([362f8d5](https://github.com/Railly/next-cooking-app/commit/362f8d599c001d8ab85cc2695db5fc3b133bf17c))
+* SSR to edit recipe ([2d2ac32](https://github.com/Railly/next-cooking-app/commit/2d2ac3209403c060bcf93f717c7b873cbf540aa8))
+
+
+### Bug Fixes
+
+* Fix API for recipes ([afff7c2](https://github.com/Railly/next-cooking-app/commit/afff7c21f0fb78c4df6b9637d13ed2ab6843bf61))
+* Fix bromse page witn stikcy add button ([11032da](https://github.com/Railly/next-cooking-app/commit/11032da08a6543a56151fb8d8d390de2aca97bd6))
+
 ### [0.1.3](https://github.com/Railly/next-cooking-app/compare/v0.1.2...v0.1.3) (2021-06-19)
 
 
