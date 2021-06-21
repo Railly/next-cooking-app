@@ -1,42 +1,28 @@
 import AppButton from 'components/Buttons/AppButton'
-import Delete from 'components/Icons/Delete'
+import IngredientsForm from 'components/Forms/IngredientsForm'
+import StepsForm from 'components/Forms/StepsForm'
 import Logo from 'components/Icons/Logo'
 import { useState } from 'react'
 
-const obj =
+const ingredientsStr =
   '{"value": ["100 gramos de chocolate cobertura semi amargo con leche", "100 gramos chocolate cobertura blanco", "Dulce de leche, nueces y almendras para rellenar a elección"]}'
 
-const tranformToIngredients = (str) =>
+const stepsStr =
+  '{"value": ["Derretir el chocolate a baño María a temperatura media. Es importante que el recipiente dónde está el chocolate no toque el agua!", "Mojar el molde con alcohol, para dar brillo y que no se adhiera el chocolate al molde. Colocar chocolate hasta la mitad. Incorporar una cucharadita de dulce de leche, almendras y nueces picadas a gusto. Llevar a la heladera por 40 minutos aproximadamente.", "Completar el resto del molde con chocolate, del mismo o diferente según el gusto de cada uno y colocar un trozo de almendras o nuez arriba para tener de referencia.", "Llevar a la heladera otros 40 minutos, desmoldar y disfrutar!"]}'
+
+const tranformToObj = (str) =>
   JSON.parse(str).value.map((x) => {
     return { value: x }
   })
 
 export default function RecipePage (props) {
   const [title, setTitle] = useState(props.name)
-  const [ingredients, setIngredients] = useState(tranformToIngredients(obj))
+  const [ingredients, setIngredients] = useState(tranformToObj(ingredientsStr))
+  const [steps, setSteps] = useState(tranformToObj(stepsStr))
 
   const onChangeTitle = (e) => {
     e.preventDefault()
     setTitle(e.target.value)
-  }
-
-  const handleUpdatedIngredients = (e, index) => {
-    const newIngredients = [...ingredients]
-    newIngredients[index].value = e.target.value
-    setIngredients(newIngredients)
-  }
-
-  const handleAddIngredient = (e) => {
-    e.preventDefault()
-    const newIngredients = [...ingredients]
-    newIngredients.push({ value: '' })
-    setIngredients(newIngredients)
-  }
-
-  const handleDelete = (index) => {
-    const newIngredients = [...ingredients]
-    newIngredients.splice(index, 1)
-    setIngredients(newIngredients)
   }
 
   return (
@@ -53,60 +39,48 @@ export default function RecipePage (props) {
           <AppButton onClick={() => {}} disabled={false} type="primary">
             SUBIR IMAGEN
           </AppButton>
-          <label>Ingredientes</label>
-          {ingredients.map((ingredient, idx) => {
-            return (
-              <div className="ingredients" key={`ingredient-${idx}`}>
-                <Delete
-                  onClick={() => handleDelete(ingredients.indexOf(ingredient))}
-                />
-                <input
-                  type="text"
-                  value={ingredient.value || ''}
-                  onChange={(e) =>
-                    handleUpdatedIngredients(e, ingredients.indexOf(ingredient))
-                  }
-                />
-              </div>
-            )
-          })}
-          <AppButton
-            onClick={handleAddIngredient}
-            disabled={false}
-            type="primary"
-          >
-            AGREGAR INGREDIENTE
-          </AppButton>
+          <IngredientsForm
+            ingredients={ingredients}
+            setIngredients={setIngredients}
+          />
+          <StepsForm steps={steps} setSteps={setSteps} />
         </form>
       </section>
       <section className="second_page">
         <p className="preview">VISTA PREVIA DE LA RECETA</p>
         <h1>{title}</h1>
-        <ol>
-          {ingredients.map((ingredient, idx) => (
-            <li key={`ingredient-${idx}`}>{ingredient.value}</li>
-          ))}
-        </ol>
+        <section className="recipe_columns">
+          <ul>
+            <h2>Ingredientes</h2>
+            {ingredients.map((ingredient, idx) => (
+              <li key={`ingredient-${idx}`}>{ingredient.value}</li>
+            ))}
+          </ul>
+          <ol>
+            <h2>Pasos</h2>
+            {steps.map((step, idx) => (
+              <li key={`step-${idx}`}>{step.value}</li>
+            ))}
+          </ol>
+        </section>
       </section>
       <style jsx>{`
         * {
           font-family: 'Montserrat';
           font-weight: 600;
         }
-        .ingredients {
-          justify-content: space-between;
-          align-items: center;
-          width: 100%;
+
+        li {
+          padding-bottom: 1em;
         }
 
-        .ingredients > :global(svg) {
-          margin-top: 1em;
-          cursor: pointer;
+        .recipe_columns {
+          display: grid;
+          grid-template-columns: 1fr 2fr;
         }
 
-        .ingredients > :global(input) {
-          margin-left: 1em;
-          width: 100%;
+        h2 {
+          color: var(--orange);
         }
 
         form {
