@@ -2,11 +2,13 @@ import { firestore } from 'firebase/admin'
 
 export default (req, res) => {
   const { query } = req
-  const { id } = query
+  const { bookId, recipeId } = query
 
   firestore
     .collection('cookbooks')
-    .doc(id)
+    .doc(`${bookId}`)
+    .collection('recipes')
+    .doc(`${recipeId}`)
     .get()
     .then((doc) => {
       const data = doc.data()

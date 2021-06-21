@@ -86,9 +86,7 @@ export async function getServerSideProps (context) {
   const { params, res } = context
   const { bookId } = params
 
-  const apiReponse = await fetch(
-    `http://localhost:3000/api/cookbooks/${bookId}`
-  )
+  const apiReponse = await fetch(`http://localhost:3000/api/book/${bookId}`)
 
   if (apiReponse.ok) {
     const props = await apiReponse.json()
