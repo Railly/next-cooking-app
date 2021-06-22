@@ -2,27 +2,66 @@ import AppButton from 'components/Buttons/AppButton'
 import IngredientsForm from 'components/Forms/IngredientsForm'
 import StepsForm from 'components/Forms/StepsForm'
 import Logo from 'components/Icons/Logo'
-import { useState } from 'react'
+import { updateRecipe } from 'firebase/client'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { tranformToObj, tranformToStr } from 'utils/parsing'
+import PreviewRecipe from 'components/PreviewRecipe'
+import ImageForm from 'components/Forms/ImageForm'
 
-const ingredientsStr =
-  '{"value": ["100 gramos de chocolate cobertura semi amargo con leche", "100 gramos chocolate cobertura blanco", "Dulce de leche, nueces y almendras para rellenar a elección"]}'
-
-const stepsStr =
-  '{"value": ["Derretir el chocolate a baño María a temperatura media. Es importante que el recipiente dónde está el chocolate no toque el agua!", "Mojar el molde con alcohol, para dar brillo y que no se adhiera el chocolate al molde. Colocar chocolate hasta la mitad. Incorporar una cucharadita de dulce de leche, almendras y nueces picadas a gusto. Llevar a la heladera por 40 minutos aproximadamente.", "Completar el resto del molde con chocolate, del mismo o diferente según el gusto de cada uno y colocar un trozo de almendras o nuez arriba para tener de referencia.", "Llevar a la heladera otros 40 minutos, desmoldar y disfrutar!"]}'
-
-const tranformToObj = (str) =>
-  JSON.parse(str).value.map((x) => {
-    return { value: x }
-  })
+const DRAG_IMAGE_STATES = {
+  ERROR: -1,
+  NONE: 0,
+  DRAG_OVER: 1,
+  UPLOADING: 2,
+  COMPLETE: 3
+}
 
 export default function RecipePage (props) {
-  const [title, setTitle] = useState(props.name)
-  const [ingredients, setIngredients] = useState(tranformToObj(ingredientsStr))
-  const [steps, setSteps] = useState(tranformToObj(stepsStr))
+  const router = useRouter()
+  const [title, setTitle] = useState(props.title)
+  const [drag, setDrag] = useState(DRAG_IMAGE_STATES.NONE)
+  const [task, setTask] = useState(null)
+  const [img, setImg] = useState(props.img)
+  console.log(task, 'task')
+
+  useEffect(() => {
+    if (task) {
+      const onProgrees = () => {}
+      const onError = () => {}
+      const onComplete = () => {
+        console.log('onComplete')
+        task.snapshot.ref.getDownloadURL().then(setImg)
+      }
+      task.on('state_changed', onProgrees, onError, onComplete)
+    }
+  }, [task])
+
+  const [ingredients, setIngredients] = useState(
+    tranformToObj(props.ingredients)
+  )
+  const [steps, setSteps] = useState(tranformToObj(props.steps))
 
   const onChangeTitle = (e) => {
     e.preventDefault()
     setTitle(e.target.value)
+  }
+
+  const handleUpdate = (e) => {
+    e.preventDefault()
+    updateRecipe({
+      title,
+      img,
+      ingredients: tranformToStr(ingredients),
+      steps: tranformToStr(steps),
+      recipeId: props.recipeId,
+      bookId: props.bookId
+    })
+  }
+
+  const handleCancel = (e) => {
+    e.preventDefault()
+    router.back()
   }
 
   return (
@@ -35,34 +74,35 @@ export default function RecipePage (props) {
         <form>
           <label>Título</label>
           <input type="text" onChange={onChangeTitle} defaultValue={title} />
-          <label>Imagen</label>
-          <AppButton onClick={() => {}} disabled={false} type="primary">
-            SUBIR IMAGEN
-          </AppButton>
+          <ImageForm
+            drag={drag}
+            setDrag={setDrag}
+            setTask={setTask}
+            img={img}
+            setImg={setImg}
+          />
           <IngredientsForm
             ingredients={ingredients}
             setIngredients={setIngredients}
           />
           <StepsForm steps={steps} setSteps={setSteps} />
         </form>
+        <div className="buttons_container">
+          <AppButton onClick={handleUpdate} type="save">
+            Actualizar
+          </AppButton>
+          <AppButton onClick={handleCancel} type="cancel">
+            Cancelar
+          </AppButton>
+        </div>
       </section>
       <section className="second_page">
-        <p className="preview">VISTA PREVIA DE LA RECETA</p>
-        <h1>{title}</h1>
-        <section className="recipe_columns">
-          <ul>
-            <h2>Ingredientes</h2>
-            {ingredients.map((ingredient, idx) => (
-              <li key={`ingredient-${idx}`}>{ingredient.value}</li>
-            ))}
-          </ul>
-          <ol>
-            <h2>Pasos</h2>
-            {steps.map((step, idx) => (
-              <li key={`step-${idx}`}>{step.value}</li>
-            ))}
-          </ol>
-        </section>
+        <PreviewRecipe
+          title={title}
+          ingredients={ingredients}
+          steps={steps}
+          img={img}
+        />
       </section>
       <style jsx>{`
         * {
@@ -70,17 +110,29 @@ export default function RecipePage (props) {
           font-weight: 600;
         }
 
-        li {
+        form > :global(svg) {
+          margin-top: 1em;
+          cursor: pointer;
+        }
+
+        h3 {
+          color: var(--gray);
+          user-select: none;
+        }
+
+        .buttons_container {
+          display: flex;
+          justify-content: space-evenly;
+          position: sticky;
           padding-bottom: 1em;
+          bottom: 0;
+          backdrop-filter: blur(5px);
+          background-color: #ffffffaa;
+          width: 100%;
         }
 
-        .recipe_columns {
-          display: grid;
-          grid-template-columns: 1fr 2fr;
-        }
-
-        h2 {
-          color: var(--orange);
+        .buttons_container > :global(button) {
+          width: 10em;
         }
 
         form {
@@ -129,15 +181,8 @@ export default function RecipePage (props) {
           margin: 0;
         }
 
-        .preview {
-          display: inline-block;
-          border-top: 1px solid var(--gray);
-          border-bottom: 1px solid var(--gray);
-          padding: 0.8em;
-        }
-
         section {
-          padding-top: 2em;
+          padding-top: 1em;
           overflow-y: auto;
           height: 100vh;
           position: relative;
@@ -156,7 +201,13 @@ export async function getServerSideProps (context) {
   )
 
   if (apiReponse.ok) {
-    const props = await apiReponse.json()
+    const propsBD = await apiReponse.json()
+    const props = {
+      ...propsBD,
+      bookId: bookId,
+      recipeId: recipeId
+    }
+
     return { props }
   }
 

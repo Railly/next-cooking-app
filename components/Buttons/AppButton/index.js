@@ -11,6 +11,10 @@ export default function AppButton ({ children, onClick, disabled, type }) {
       enabled: 'var(--red)',
       disabled: 'var(--pink)'
     },
+    save: {
+      enabled: 'var(--green)',
+      disabled: 'var(--soft-green)'
+    },
     google: {
       enabled: '#fff',
       disabled: 'var(--white)'
@@ -23,6 +27,10 @@ export default function AppButton ({ children, onClick, disabled, type }) {
       disabled: 'var(--white)'
     },
     cancel: {
+      enabled: 'var(--white)',
+      disabled: 'var(--white)'
+    },
+    save: {
       enabled: 'var(--white)',
       disabled: 'var(--white)'
     },

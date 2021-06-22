@@ -1,13 +1,13 @@
 import Arrow from 'components/Icons/Arrow'
 import Link from 'next/link'
 
-export default function Recipe ({ name, bookId, createdAt, id }) {
+export default function Recipe ({ title, bookId, createdAt, id }) {
   return (
     <>
       <Link href={`/browse/book/${bookId}/${id}`}>
         <a>
           <button>
-            {name}
+            {title}
             <Arrow />
           </button>
         </a>

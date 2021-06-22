@@ -44,6 +44,15 @@ export default function CookbookPage (props) {
         <FourCharacters />
       </section>
       <style jsx>{`
+        .button_container {
+          position: sticky;
+          padding-bottom: 1em;
+          bottom: 0;
+          backdrop-filter: blur(5px);
+          background-color: #ffffff11;
+          width: 100%;
+        }
+
         .second_page {
           align-items: center;
           background-color: var(--blue);
