@@ -1,6 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
+import 'firebase/storage'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCeTLwrUUsVLltj2x2tU3uNhoszgWrUl3A',
@@ -58,12 +59,39 @@ export const addCookbook = ({ name, userId }) => {
   })
 }
 // TODO: Add Recipe DB
-export const addRecipe = ({ name, userId }) => {
-  return db.collection('cookbooks').add({
-    name,
-    userId,
-    createdAt: firebase.firestore.Timestamp.fromDate(new Date())
-  })
+export const addRecipe = ({ bookId, title, img, ingredients, steps }) => {
+  return db
+    .collection('cookbooks')
+    .doc(`${bookId}`)
+    .collection('recipes')
+    .add({
+      title,
+      img,
+      ingredients,
+      steps,
+      createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+    })
+}
+
+export const updateRecipe = ({
+  bookId,
+  recipeId,
+  title,
+  img,
+  ingredients,
+  steps
+}) => {
+  return db
+    .collection('cookbooks')
+    .doc(`${bookId}`)
+    .collection('recipes')
+    .doc(`${recipeId}`)
+    .update({
+      title,
+      img,
+      ingredients,
+      steps
+    })
 }
 
 const mapFromFirebaseToObject = (doc) => {
@@ -102,22 +130,8 @@ export const listenLatestRecipes = (cookbookId, callback) => {
     })
 }
 
-export const fetchLatestCookbooks = async (bookId) => {
-  return db
-    .collection('cookbooks')
-    .doc(bookId)
-    .get()
-    .then((snapshot) => {
-      return snapshot.docs.map((doc) => {
-        const data = doc.data()
-        const id = doc.id
-        const { createdAt } = data
-
-        return {
-          ...data,
-          id,
-          createdAt: +createdAt.toDate()
-        }
-      })
-    })
+export const uploadImage = (file) => {
+  const ref = firebase.storage().ref(`images/${file.name}`)
+  const task = ref.put(file)
+  return task
 }

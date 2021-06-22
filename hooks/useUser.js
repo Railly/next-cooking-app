@@ -1,6 +1,6 @@
 import { onAuthStateChanged } from 'firebase/client'
 import { useRouter } from 'next/router'
-import { BROWSE_PAGES, re } from 'pages/_app'
+import { re } from 'pages/_app'
 import { useState, useEffect } from 'react'
 
 export const USER_STATES = {
