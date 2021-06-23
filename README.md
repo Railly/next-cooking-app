@@ -1,7 +1,7 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Screenshots
-![enter image description here](https://github.com/Railly/next-cooking-app/blob/main/public/github.png)
+<div style="text-align:center"><img src="https://github.com/Railly/next-cooking-app/blob/main/public/github.png" /></div>
 
 ## Getting Started
 
