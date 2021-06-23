@@ -39,7 +39,7 @@ export default function Modal ({ toggleModal, isOpen }) {
       <div className="blur_background"></div>
       <div className="modal_container">
         <div className="modal">
-          <label>Nombre del libro de cocina</label>
+          <label>Ponle un nombre :D </label>
           <input type="text" onChange={handleOnChange} />
           <AppButton
             onClick={handleClick}

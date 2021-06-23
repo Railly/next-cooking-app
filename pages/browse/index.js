@@ -3,22 +3,27 @@ import Cookbook from 'components/Cookbook'
 import FourCharacters from 'components/Icons/FourCharacters'
 import Logo from 'components/Icons/Logo'
 import Modal from 'components/Modal'
-import { listenLatestCookbooks } from 'firebase/client'
-import useUser from 'hooks/useUser'
-import { useEffect, useState } from 'react'
+import { deleteCookbook } from 'firebase/client'
+import { useState } from 'react'
 
-export default function App () {
-  const user = useUser()
+export default function App ({ user, cookbooks }) {
   const [isOpen, setIsOpen] = useState(false)
-  const [cookbooks, setCookbooks] = useState([])
+  const [deleteMode, setDeleteMode] = useState(false)
 
   const toggleModal = () => {
     setIsOpen(!isOpen)
   }
 
-  useEffect(() => {
-    user && listenLatestCookbooks(user.uid, setCookbooks)
-  }, [user])
+  const toggleDeleteMode = () => {
+    setDeleteMode(!deleteMode)
+  }
+
+  const handleDeleteCookbook = (e, bookId) => {
+    e.preventDefault()
+    deleteCookbook({
+      bookId: bookId
+    })
+  }
 
   return (
     <>
@@ -30,12 +35,33 @@ export default function App () {
         {!user && <h1>Cargando</h1>}
         {user && (
           <div className="cookbooks">
-            {cookbooks.map((cookbook) => {
-              return <Cookbook key={cookbook.id} {...cookbook} />
-            })}
+            {cookbooks &&
+              cookbooks.map((cookbook) =>
+                deleteMode
+                  ? (
+                  <Cookbook
+                    key={cookbook.id}
+                    bookId={cookbook.id}
+                    onClick={(e) => handleDeleteCookbook(e, cookbook.id)}
+                    {...cookbook}
+                  />
+                    )
+                  : (
+                  <Cookbook
+                    key={cookbook.id}
+                    bookId={cookbook.id}
+                    {...cookbook}
+                  />
+                    )
+              )}
             <div className="button_container">
-              <AppButton onClick={toggleModal} type="primary">
-                NUEVO LIBRO DE COCINA
+              {!deleteMode && (
+                <AppButton onClick={toggleModal} type="primary">
+                  NUEVO LIBRO
+                </AppButton>
+              )}
+              <AppButton onClick={toggleDeleteMode} type="cancel">
+                {deleteMode ? 'CANCELAR' : 'ELIMINAR LIBRO'}
               </AppButton>
             </div>
           </div>
@@ -48,6 +74,9 @@ export default function App () {
       <style jsx>
         {`
           .button_container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             position: sticky;
             padding-bottom: 1em;
             bottom: 0;

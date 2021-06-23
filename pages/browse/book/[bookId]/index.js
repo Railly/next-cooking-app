@@ -1,41 +1,88 @@
 import AppButton from 'components/Buttons/AppButton'
+import Back from 'components/Icons/Back'
 import FourCharacters from 'components/Icons/FourCharacters'
 import Logo from 'components/Icons/Logo'
 import Recipe from 'components/Recipe'
-import { listenLatestRecipes } from 'firebase/client'
-import useUser from 'hooks/useUser'
+import { addRecipe, deleteRecipe, listenLatestRecipes } from 'firebase/client'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-export default function CookbookPage (props) {
-  const user = useUser()
+export default function CookbookPage ({ user, id, name }) {
   const router = useRouter()
   const [recipes, setRecipes] = useState([])
+  const [deleteMode, setDeleteMode] = useState(false)
 
-  const handleClick = () => {
-    router.push('/browse/create-recipe')
+  const handleAdd = () => {
+    addRecipe({
+      bookId: id,
+      title: 'Nueva Receta',
+      img: '',
+      ingredients: '',
+      steps: ''
+    })
+  }
+
+  const toggleDeleteMode = () => {
+    setDeleteMode(!deleteMode)
+  }
+
+  const handleDeleteRecipe = (e, recipeId) => {
+    e.preventDefault()
+    deleteRecipe({
+      bookId: id,
+      recipeId: recipeId
+    })
+      .then(() => {
+        console.log('ez')
+      })
+      .catch((err) => {
+        console.error(err)
+      })
   }
 
   useEffect(() => {
-    user && listenLatestRecipes(props.id, setRecipes)
+    let unsubscribe
+    if (user) {
+      unsubscribe = listenLatestRecipes(id, setRecipes)
+    }
+    return () => unsubscribe && unsubscribe()
   }, [user])
 
   return (
     <>
       <section>
+        <div className="back_container">
+          <Back width={35} height={35} onClick={() => router.back()} />
+        </div>
         <div>
           <Logo />
         </div>
         <div className="recipes">
           <p>Crea un libro de cocina a selecciona uno :)</p>
-          <h1>{props.name}</h1>
+          <h1>{name}</h1>
           {recipes &&
-            recipes.map((recipe) => (
-              <Recipe key={recipe.id} bookId={props.id} {...recipe} />
-            ))}
+            recipes.map((recipe) =>
+              deleteMode
+                ? (
+                <Recipe
+                  key={recipe.id}
+                  bookId={id}
+                  onClick={(e) => handleDeleteRecipe(e, recipe.id)}
+                  {...recipe}
+                />
+                  )
+                : (
+                <Recipe key={recipe.id} bookId={id} {...recipe} />
+                  )
+            )}
           <div className="button_container">
-            <AppButton onClick={handleClick} type="primary">
-              NUEVO LIBRO DE COCINA
+            {!deleteMode && (
+              <AppButton onClick={handleAdd} type="primary">
+                NUEVA RECETA
+              </AppButton>
+            )}
+            <AppButton onClick={toggleDeleteMode} type="cancel">
+              {deleteMode ? 'CANCELAR' : 'ELIMINAR RECETA'}
             </AppButton>
           </div>
         </div>
@@ -44,7 +91,20 @@ export default function CookbookPage (props) {
         <FourCharacters />
       </section>
       <style jsx>{`
+        div > :global(svg) {
+          cursor: pointer;
+        }
+
+        .back_container {
+          display: flex;
+          justify-content: flex-start;
+          padding-left: 2em;
+        }
+
         .button_container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
           position: sticky;
           padding-bottom: 1em;
           bottom: 0;

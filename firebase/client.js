@@ -58,7 +58,7 @@ export const addCookbook = ({ name, userId }) => {
     createdAt: firebase.firestore.Timestamp.fromDate(new Date())
   })
 }
-// TODO: Add Recipe DB
+
 export const addRecipe = ({ bookId, title, img, ingredients, steps }) => {
   return db
     .collection('cookbooks')
@@ -134,4 +134,17 @@ export const uploadImage = (file) => {
   const ref = firebase.storage().ref(`images/${file.name}`)
   const task = ref.put(file)
   return task
+}
+
+export const deleteRecipe = ({ bookId, recipeId }) => {
+  return db
+    .collection('cookbooks')
+    .doc(`${bookId}`)
+    .collection('recipes')
+    .doc(`${recipeId}`)
+    .delete()
+}
+
+export const deleteCookbook = ({ bookId }) => {
+  return db.collection('cookbooks').doc(`${bookId}`).delete()
 }

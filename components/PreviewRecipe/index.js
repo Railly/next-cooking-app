@@ -6,13 +6,13 @@ export default function PreviewRecipe ({ title, ingredients, steps, img }) {
       <section className="recipe_columns">
         {img && <img src={img} height={400} />}
         <ul>
-          <h2>Ingredientes</h2>
+          {ingredients.length === '0' && <h2>Ingredientes</h2>}
           {ingredients.map((ingredient, idx) => (
             <li key={`ingredient-${idx}`}>{ingredient.value}</li>
           ))}
         </ul>
         <ol>
-          <h2>Pasos</h2>
+          {steps.length === '0' && <h2>Pasos</h2>}
           {steps.map((step, idx) => (
             <li key={`step-${idx}`}>{step.value}</li>
           ))}

@@ -1,4 +1,3 @@
-import AppButton from 'components/Buttons/AppButton'
 import Delete from 'components/Icons/Delete'
 import upload from 'public/upload.svg'
 import { uploadImage } from 'firebase/client'
@@ -60,9 +59,6 @@ export default function ImageForm ({ setDrag, setTask, img, setImg, drag }) {
           ></div>
         </>
           )}
-      <AppButton onClick={() => {}} disabled={false} type="primary">
-        SUBIR IMAGEN
-      </AppButton>
       <style jsx>{`
         label {
           color: var(--orange);
@@ -80,7 +76,7 @@ export default function ImageForm ({ setDrag, setTask, img, setImg, drag }) {
         .img_container {
           background-image: url(${upload.src});
           background-position: center center;
-          background-size: 80% 80%;
+          background-size: 60% 60%;
           background-repeat: no-repeat;
           border: ${
             drag === DRAG_IMAGE_STATES.DRAG_OVER

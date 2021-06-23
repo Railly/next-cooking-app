@@ -1,7 +1,7 @@
 import { onAuthStateChanged } from 'firebase/client'
 import { useRouter } from 'next/router'
-import { re } from 'pages/_app'
 import { useState, useEffect } from 'react'
+import { re } from 'utils/dictionary'
 
 export const USER_STATES = {
   NOT_LOGGED: null,

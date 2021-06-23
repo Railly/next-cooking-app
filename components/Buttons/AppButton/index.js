@@ -48,7 +48,7 @@ export default function AppButton ({ children, onClick, disabled, type }) {
       </button>
       <style jsx>{`
         button {
-          cursor: pointer;
+          cursor: ${!disabled && 'pointer'};
           display: flex;
           justify-content: space-evenly;
           align-items: center;
@@ -61,6 +61,7 @@ export default function AppButton ({ children, onClick, disabled, type }) {
             ? fontColor[type].disabled
             : fontColor[type].enabled};
           border-radius: 6px;
+          transition: transform 250ms;
           padding: 0.8em 0;
           margin-top: 2em;
           margin-bottom: 1em;
@@ -68,14 +69,14 @@ export default function AppButton ({ children, onClick, disabled, type }) {
           -webkit-box-shadow: 2px 1px 37px -14px rgba(0, 0, 0, 0.34);
           -moz-box-shadow: 2px 1px 37px -14px rgba(0, 0, 0, 0.34);
         }
-        button:hover,
-        button:focus {
+
+        button:hover {
           transform: scale(1.03);
-          transition: 0.3s;
         }
         button:focus {
           outline: 1px solid #fff;
         }
+
         button:active {
           transform: scale(0.99);
         }

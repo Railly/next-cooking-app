@@ -59,6 +59,7 @@ export default function IngredientsForm ({ ingredients, setIngredients }) {
         }
 
         input {
+          background-color: transparent;
           border: 0;
           border-bottom: 2px solid var(--black);
           font-size: 0.9em;

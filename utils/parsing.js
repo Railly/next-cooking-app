@@ -1,7 +1,9 @@
-export const tranformToObj = (str) =>
-  JSON.parse(str).value.map((x) => {
+export const tranformToObj = (str) => {
+  if (str === '') return []
+  return JSON.parse(str).value.map((x) => {
     return { value: x }
   })
+}
 
 export const tranformToStr = (obj) =>
   JSON.stringify({

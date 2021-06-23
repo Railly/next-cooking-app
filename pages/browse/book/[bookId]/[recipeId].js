@@ -8,6 +8,9 @@ import { useEffect, useState } from 'react'
 import { tranformToObj, tranformToStr } from 'utils/parsing'
 import PreviewRecipe from 'components/PreviewRecipe'
 import ImageForm from 'components/Forms/ImageForm'
+import 'react-toastify/dist/ReactToastify.css'
+import { toast, ToastContainer } from 'react-toastify'
+import Back from 'components/Icons/Back'
 
 const DRAG_IMAGE_STATES = {
   ERROR: -1,
@@ -19,6 +22,7 @@ const DRAG_IMAGE_STATES = {
 
 export default function RecipePage (props) {
   const router = useRouter()
+  const [disabled, setDisabled] = useState(false)
   const [title, setTitle] = useState(props.title)
   const [drag, setDrag] = useState(DRAG_IMAGE_STATES.NONE)
   const [task, setTask] = useState(null)
@@ -49,6 +53,7 @@ export default function RecipePage (props) {
 
   const handleUpdate = (e) => {
     e.preventDefault()
+    setDisabled(true)
     updateRecipe({
       title,
       img,
@@ -56,6 +61,13 @@ export default function RecipePage (props) {
       steps: tranformToStr(steps),
       recipeId: props.recipeId,
       bookId: props.bookId
+    }).then(() => {
+      toast.success('Receta actualizada exitosamente', {
+        toastId: 'SUCCESS_UPDATE_RECIPE',
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 2500,
+        onClose: () => setDisabled(false)
+      })
     })
   }
 
@@ -67,6 +79,9 @@ export default function RecipePage (props) {
   return (
     <>
       <section>
+        <div className="back_container">
+          <Back width={35} height={35} onClick={() => router.back()} />
+        </div>
         <div>
           <Logo />
         </div>
@@ -88,10 +103,10 @@ export default function RecipePage (props) {
           <StepsForm steps={steps} setSteps={setSteps} />
         </form>
         <div className="buttons_container">
-          <AppButton onClick={handleUpdate} type="save">
+          <AppButton onClick={handleUpdate} type="save" disabled={disabled}>
             Actualizar
           </AppButton>
-          <AppButton onClick={handleCancel} type="cancel">
+          <AppButton onClick={handleCancel} type="cancel" disabled={disabled}>
             Cancelar
           </AppButton>
         </div>
@@ -103,11 +118,22 @@ export default function RecipePage (props) {
           steps={steps}
           img={img}
         />
+        <ToastContainer />
       </section>
       <style jsx>{`
         * {
           font-family: 'Montserrat';
           font-weight: 600;
+        }
+
+        div > :global(svg) {
+          cursor: pointer;
+        }
+
+        .back_container {
+          display: flex;
+          justify-content: flex-start;
+          padding-left: 2em;
         }
 
         form > :global(svg) {
@@ -148,6 +174,7 @@ export default function RecipePage (props) {
         }
 
         input {
+          background-color: transparent;
           border: 0;
           border-bottom: 2px solid var(--black);
           font-size: 0.9em;
