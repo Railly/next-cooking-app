@@ -29,7 +29,8 @@ function MyApp ({ Component, pageProps }) {
           Foody -{' '}
           {LANDING_PAGES[pathname] ||
             AUTH_PAGES[pathname] ||
-            BROWSE_PAGES[pathname]}
+            BROWSE_PAGES[pathname] ||
+            (re.test(pathname) && 'Crea')}
         </title>
         <meta
           name="description"
