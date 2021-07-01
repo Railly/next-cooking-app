@@ -154,6 +154,7 @@ export default function CookbookPage ({ user, id, name }) {
 export async function getServerSideProps (context) {
   const { params, res } = context
   const { bookId } = params
+  console.log(process.env.HOST)
 
   const apiReponse = await fetch(`${process.env.HOST}/api/book/${bookId}`)
 
