@@ -104,10 +104,10 @@ export default function RecipePage (props) {
         </form>
         <div className="buttons_container">
           <AppButton onClick={handleUpdate} type="save" disabled={disabled}>
-            Actualizar
+            ACTUALIZAR
           </AppButton>
           <AppButton onClick={handleCancel} type="cancel" disabled={disabled}>
-            Cancelar
+            CANCELAR
           </AppButton>
         </div>
       </section>

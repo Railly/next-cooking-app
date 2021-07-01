@@ -1,7 +1,7 @@
 import css from 'styled-jsx/css'
 import { device } from 'styles/devices'
 
-export default css`
+export const styles = css`
   div {
     display: flex;
     flex-direction: column;

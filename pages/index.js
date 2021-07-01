@@ -1,6 +1,6 @@
 import LandingButton from 'components/Buttons/LandingButton'
 import Illustration from 'components/Icons/Illustration'
-import styles from './styles'
+import { styles } from './styles'
 
 export default function Home () {
   return (
