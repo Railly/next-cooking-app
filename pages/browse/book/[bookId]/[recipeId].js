@@ -224,7 +224,7 @@ export async function getServerSideProps (context) {
   const { bookId, recipeId } = params
 
   const apiReponse = await fetch(
-    `http://localhost:3000/api/book/${bookId}/${recipeId}`
+    `${process.env.HOST}/api/book/${bookId}/${recipeId}`
   )
 
   if (apiReponse.ok) {

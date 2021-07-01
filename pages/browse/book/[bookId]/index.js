@@ -155,7 +155,7 @@ export async function getServerSideProps (context) {
   const { params, res } = context
   const { bookId } = params
 
-  const apiReponse = await fetch(`http://localhost:3000/api/book/${bookId}`)
+  const apiReponse = await fetch(`${process.env.HOST}/api/book/${bookId}`)
 
   if (apiReponse.ok) {
     const props = await apiReponse.json()
